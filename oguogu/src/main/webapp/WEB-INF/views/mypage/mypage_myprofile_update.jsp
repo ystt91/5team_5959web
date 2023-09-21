@@ -19,9 +19,22 @@
 	    flex-direction: column;
 	    align-items: center;
 	    background-color: #FBF9D9;
-	    padding-top:50px;
+	    padding-top:20px;
 	    margin-left:100px;
 	    border-radius:50px;
+	}
+	
+	#myimg-add-btn,#myimg-delete-btn {
+	    cursor: pointer;
+	    display: inline-block;
+	    background-color: lightgray;
+	    padding:10px;
+	    text-align:center;
+	    color: #fff;
+	    border: none;
+	    border-radius:10px;
+		width:100px;
+		font-size: 15px;
 	}
 	
 	#myprofileform button{
@@ -36,12 +49,6 @@
 	
 	#update-myprofile div{
 		margin:10px 0;
-	}
-	
-	#myimg-add-btn{
-		border-radius:10px;
-		width:100px;
-		font-size: 15px;
 	}
 	
 	#edit-remove button{
@@ -89,6 +96,7 @@
     	
     	var isNicknameValid = false;
     	
+    	//닉네임 버튼 활성화 체크 함수
     	function updateBtnState() {
 			if(isNicknameValid){
 				$("#edit-button").prop("disabled", false).css("background-color", "#FFA629").css("cursor", "pointer").css("color","white");
@@ -97,6 +105,7 @@
 			}
 		}
     	
+    	//닉네임 유효성 검사
     	$("#nickname").on("input", function() {
 	    	  nick_input = $("#nickname").val();
 	    	  var pattern = /^[A-Za-z0-9가-힣].{1,20}$/; 
@@ -131,6 +140,24 @@
 	    	  updateBtnState();
 	    	});
     	
+    	//업데이트 버튼
+    	$("#edit-button").on("click", function() {
+			if($("#nickname").length<=0){
+				alert("닉네임을 넣어주세요")
+				$("#nickname").focus();
+			}
+		})
+		
+		$("#myimg-delete-btn").on("click", function() {
+		    // 파일 입력 요소 초기화
+		    $("#fileInput").val("");
+		
+		    // 이미지 제거
+		    $("#myimg").attr("src", "resources/images/home/mainbanner_eduexplain.png"); // 이미지의 src 속성을 비워서 이미지를 제거합니다.
+		});
+    	
+		
+		//닉네임 버튼 체크 함수 활성화
     	updateBtnState();
 		
     });
@@ -149,8 +176,12 @@
 			<div>
 				<img src="resources/images/home/mainbanner_eduexplain.png" id="myimg" />
 			</div>
+			
 			<div id="myimg-add-delete">
-				<button id="myimg-add-btn" style="cursor:pointer;"> 사진 추가 </button>
+				<label for="fileInput" id="myimg-add-btn" style="margin-right:15px;">
+					사진 추가<input type="file" id="fileInput" name="file" accept="img/*" style="display: none;">
+				</label>
+				<label id="myimg-delete-btn">삭제</label>
 			</div>
 			
 			<div id="my-nickname">
@@ -163,7 +194,7 @@
 			</div>
 			
 			<div id="edit-remove">
-				<button id="edit-button" disabled>수정하기</button><!-- 수정 완료 후 변경 완료한 아이디를 가지고 프로필 페이지로  -->
+				<button id="edit-button">수정하기</button><!-- 수정 완료 후 변경 완료한 아이디를 가지고 프로필 페이지로  -->
 				<div id="edit-remove-line"></div>
 				<button id="remove-button" style="cursor:pointer;">회원탈퇴</button><!-- 누르면 비번 찾기 페이지로 이동  -->
 			</div>
@@ -172,5 +203,28 @@
 	<footer>
 		<jsp:include page="/WEB-INF/views/home/home_bottom.jsp" />
 	</footer>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+	<script type="text/javascript">
+		// 파일 입력 요소와 이미지 요소를 참조합니다.
+		const fileInput = document.getElementById('fileInput');
+		const imgElement = document.getElementById('myimg');
+	
+		// 파일 입력 요소의 변경 이벤트를 감지합니다.
+		fileInput.addEventListener('change', function () {
+		    const selectedFile = fileInput.files[0]; // 첫 번째 선택한 파일을 가져옵니다.
+	
+		    // 파일을 이미지로 미리보기합니다.
+		    if (selectedFile) {
+		        const reader = new FileReader();
+	
+		        reader.onload = function (e) {
+		            // 이미지 파일을 읽어서 이미지 요소에 표시합니다.
+		            imgElement.src = e.target.result;
+		        };
+	
+		        reader.readAsDataURL(selectedFile);
+		    }
+		});
+	</script>
 </body>
 </html>

@@ -94,7 +94,7 @@
 		<div id="myprofile-onelist-form">
 			<div style="font-size: 50px; font-weight: bold;color:#FFA629">프로필</div>
 			<div>
-				<img src="resources/images/home/mainbanner_eduexplain.png" id="myimg"/>
+				<img src="resources/images/home/mainbanner_eduexplain.png" id="myimg"/><!-- 이것도 세션으로 땡겨야 될거 같은데 -->
 			</div>
 			<div id="nickname">
 				<input type="text" value="${sessionScope.nickname}" readonly>

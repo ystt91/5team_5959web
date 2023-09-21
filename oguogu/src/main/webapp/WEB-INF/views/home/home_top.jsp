@@ -98,8 +98,7 @@ ul.midmenu > li ul.sub{
             alert("이메일 또는 비밀번호가 올바르지 않습니다.다시 확인해 주세요.")
            location.href="/clearSession.do"
         }
-        
-        
+
          $("#logout_go").on("click", function() {
         	 alert("로그아웃 되었습니다.");
         })  
