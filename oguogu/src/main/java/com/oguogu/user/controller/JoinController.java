@@ -95,6 +95,7 @@ public class JoinController {
 			session.setAttribute("user_id", uvo.getUser_id());
 			session.setAttribute("email", uvo.getEmail());
 			session.setAttribute("nickname", uvo.getNickname());
+			session.setAttribute("type", uvo.getType());
 			System.out.println(uvo.getUser_id());
 			System.out.println(uvo.getEmail());
 			System.out.println(uvo.getNickname());

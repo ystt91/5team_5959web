@@ -116,7 +116,14 @@ ul.midmenu > li ul.sub{
 	<!-- 최상단 NOTICE,LOGIN,JOIN US -->
 	<div>
 	  <ul class="topmenu">
-	    <li><a href="" style="color:tomato; display:none;" class="header-ALink">관리자 페이지</a></li><!-- id가 admin일 때 display:"" JS 처리  -->
+	    <c:choose>
+	  	<c:when test="${sessionScope.type == 0}">
+	    	<li><a href="" style="color:tomato; display:block;" class="header-ALink" id="adminPageBtn">관리자 페이지</a></li><!-- id가 admin일 때 display:"" JS 처리  -->
+	    </c:when>
+	    <c:otherwise>
+	    	<li></li> 
+	    </c:otherwise>
+	    </c:choose>
 	    <li><a href="/supdisplay.do" style="color:#FFA629;" class="header-ALink">NOTICE </a></li>
 	    <c:choose>
 	    	<c:when test="${loginChk eq 'ok'}">

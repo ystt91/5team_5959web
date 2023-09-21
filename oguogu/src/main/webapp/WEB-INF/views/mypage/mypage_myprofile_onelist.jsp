@@ -39,6 +39,7 @@
 		background-color:#FFA629;
 		font-size: 20px;
 		color:#fff0f5;
+		cursor:pointer;
 	}
 	
 	#myprofile-onelist-form input[type="text"]{
@@ -66,10 +67,19 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
-     $("#mypage-logout").on("click", function() {
-			alert("로그아웃 되었습니다.");
-			location.href="/user_logout.do"
+	    $("#mypage-logout").on("click", function() {
+				alert("로그아웃 되었습니다.");
+				location.href="/user_logout.do"
 		})
+		
+		$("#userInfoUpdate").on("click", function() {
+				location.href="/userInfoUpdateForm.do"
+		})
+		
+		$("#userInfoUpdate").on("click", function() {
+				location.href="/userInfoUpdateForm.do"
+		})
+		
     });
 </script>
 </head>
@@ -87,15 +97,15 @@
 				<img src="resources/images/home/mainbanner_eduexplain.png" id="myimg"/>
 			</div>
 			<div id="nickname">
-				<input type="text" id="" value="nickname" readonly>
+				<input type="text" value="${sessionScope.nickname}" readonly>
 			</div>
 			<div id="email">
-				<input type="text" id="" value="poiu62875@gmail.com" readonly>
+				<input type="text" value="${sessionScope.email}" readonly>
 			</div>
 			<div id="info_pw">
-				<button class="button" onclick="" style="margin-bottom:20px;">회원 정보 수정</button>
+				<button class="button" id="userInfoUpdate"style="margin-bottom:20px;">회원 정보 수정</button>
 				<br><!-- 회원정보 수정 페이지로 go -->
-				<button class="button" onclick="">비밀번호 변경</button><!-- 누르면 비번 찾기 페이지로 이동  -->
+				<button class="button" id="pwUpdate">비밀번호 변경</button><!-- 누르면 비번 찾기 페이지로 이동  -->
 			</div>
 		</div>
 	</div>
