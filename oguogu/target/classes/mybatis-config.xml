@@ -27,6 +27,7 @@
 		<mapper resource="mappers/fooduser-mapper.xml"/>
 		<mapper resource="mappers/admin-mapper.xml" /> 
 		<mapper resource="mappers/admin_report-mapper.xml" /> 
+		<mapper resource="mappers/mypage-mapper.xml" /> 
 	</mappers>
 	
 </configuration>

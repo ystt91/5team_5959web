@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -95,15 +96,17 @@
     $(document).ready(function(){
     	
     	var isNicknameValid = false;
+    	var isfileimg = false;
     	
     	//닉네임 버튼 활성화 체크 함수
     	function updateBtnState() {
-			if(isNicknameValid){
+			if(isNicknameValid || isfileimg){
 				$("#edit-button").prop("disabled", false).css("background-color", "#FFA629").css("cursor", "pointer").css("color","white");
 			}else{
 				$("#edit-button").prop("disabled", true).css("background-color", "#F3F1EF").css("cursor", "default").css("color","#C4C4C4");
 			}
 		}
+    	
     	
     	//닉네임 유효성 검사
     	$("#nickname").on("input", function() {
@@ -139,24 +142,46 @@
 	    	  }
 	    	  updateBtnState();
 	    	});
-    	
-    	//업데이트 버튼
-    	$("#edit-button").on("click", function() {
-			if($("#nickname").length<=0){
-				alert("닉네임을 넣어주세요")
-				$("#nickname").focus();
-			}
-		})
-		
+
 		$("#myimg-delete-btn").on("click", function() {
 		    // 파일 입력 요소 초기화
 		    $("#fileInput").val("");
-		
 		    // 이미지 제거
 		    $("#myimg").attr("src", "resources/images/home/mainbanner_eduexplain.png"); // 이미지의 src 속성을 비워서 이미지를 제거합니다.
+		    isfileimg = true;
+		    updateBtnState();
 		});
-    	
 		
+    	
+		//파일 첨부와 미지 변수
+         const $fileInput = $('#fileInput');
+         const $imgElement = $('#myimg');
+
+         // 파일 입력 요소의 변경 이벤트를 감지합니다.
+         $fileInput.on('change', function () {
+             var selectedFile = $fileInput[0].files[0]; // 첫 번째 선택한 파일을 가져옵니다.
+             
+             // 파일을 이미지로 미리보기합니다.
+             if (selectedFile) {
+                 var reader = new FileReader();
+
+                 reader.onload = function (e) {
+                     // 이미지 파일을 읽어서 이미지 요소에 표시합니다.
+                     $imgElement.attr('src', e.target.result);
+                 };
+
+                 reader.readAsDataURL(selectedFile);
+                 
+                 isfileimg = true;
+                 updateBtnState();
+             }
+         });
+
+        //업데이트 버튼
+     	function update_go() {
+			
+		}
+
 		//닉네임 버튼 체크 함수 활성화
     	updateBtnState();
 		
@@ -171,10 +196,17 @@
 		<div style="margin-right:70px;">
 			<jsp:include page="mypage-sidebar.jsp" />
 		</div>
-		<div id="update-myprofileform">
+		<form id="update-myprofileform" enctype="multipart/form-data" method="post">
 			<div style="font-size: 40px; font-weight: bold; color:#FFA629;">회원 정보 수정</div>
+			<c:choose>
+				<c:when test="${uvo.user_fname}">
+					<img src="resources/images/${uvo.user_fname}" id="myimg" />							
+				</c:when>
+				<c:otherwise>
+					<img src="resources/images/home/mainbanner_eduexplain.png" id="myimg" />			
+				</c:otherwise>
+			</c:choose>
 			<div>
-				<img src="resources/images/home/mainbanner_eduexplain.png" id="myimg" />
 			</div>
 			
 			<div id="myimg-add-delete">
@@ -185,46 +217,24 @@
 			</div>
 			
 			<div id="my-nickname">
-				<label>닉네임 : </label><input type="text" id="nickname" value="${sessionScope.nickname}" maxlength="20" style="width:280px;">
+				<label>닉네임 : </label><input type="text" id="nickname" value="${uvo.nickname}" maxlength="20" style="width:280px;">
 			</div>
 			<div id="nickCheck" style="width:350px;"></div>
 			
 			<div id="update-email">
-				이메일 : <input type="text" value="${sessionScope.email}" readonly>
+				이메일 : <input type="text" value="${uvo.email}" readonly>
 			</div>
 			
 			<div id="edit-remove">
-				<button id="edit-button">수정하기</button><!-- 수정 완료 후 변경 완료한 아이디를 가지고 프로필 페이지로  -->
+				<button id="edit-button" onclick="update_go()">수정하기</button><!-- 수정 완료 후 변경 완료한 아이디를 가지고 프로필 페이지로  -->
 				<div id="edit-remove-line"></div>
 				<button id="remove-button" style="cursor:pointer;">회원탈퇴</button><!-- 누르면 비번 찾기 페이지로 이동  -->
 			</div>
-		</div>
+		</form>
 	</div>
 	<footer>
 		<jsp:include page="/WEB-INF/views/home/home_bottom.jsp" />
 	</footer>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-	<script type="text/javascript">
-		// 파일 입력 요소와 이미지 요소를 참조합니다.
-		const fileInput = document.getElementById('fileInput');
-		const imgElement = document.getElementById('myimg');
-	
-		// 파일 입력 요소의 변경 이벤트를 감지합니다.
-		fileInput.addEventListener('change', function () {
-		    const selectedFile = fileInput.files[0]; // 첫 번째 선택한 파일을 가져옵니다.
-	
-		    // 파일을 이미지로 미리보기합니다.
-		    if (selectedFile) {
-		        const reader = new FileReader();
-	
-		        reader.onload = function (e) {
-		            // 이미지 파일을 읽어서 이미지 요소에 표시합니다.
-		            imgElement.src = e.target.result;
-		        };
-	
-		        reader.readAsDataURL(selectedFile);
-		    }
-		});
-	</script>
+
 </body>
 </html>

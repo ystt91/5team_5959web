@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -67,18 +68,11 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
-	    $("#mypage-logout").on("click", function() {
-				alert("로그아웃 되었습니다.");
-				location.href="/user_logout.do"
-		})
 		
 		$("#userInfoUpdate").on("click", function() {
-				location.href="/userInfoUpdateForm.do"
+				location.href="/userInfoUpdateForm.do?user_id=${userVO.user_id}"
 		})
 		
-		$("#userInfoUpdate").on("click", function() {
-				location.href="/userInfoUpdateForm.do"
-		})
 		
     });
 </script>
@@ -93,14 +87,14 @@
 		</div>
 		<div id="myprofile-onelist-form">
 			<div style="font-size: 50px; font-weight: bold;color:#FFA629">프로필</div>
-			<div>
-				<img src="resources/images/home/mainbanner_eduexplain.png" id="myimg"/><!-- 이것도 세션으로 땡겨야 될거 같은데 -->
-			</div>
+				<div>
+					<img src="resources/images/home/mainbanner_eduexplain.png" id="myimg"/><!-- 이것도 세션으로 땡겨야 될거 같은데 -->
+				</div>				
 			<div id="nickname">
-				<input type="text" value="${sessionScope.nickname}" readonly>
+				<input type="text" value="${userVO.nickname}" readonly>
 			</div>
 			<div id="email">
-				<input type="text" value="${sessionScope.email}" readonly>
+				<input type="text" value="${userVO.email}" readonly>
 			</div>
 			<div id="info_pw">
 				<button class="button" id="userInfoUpdate"style="margin-bottom:20px;">회원 정보 수정</button>
